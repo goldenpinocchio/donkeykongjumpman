@@ -1,0 +1,191 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>1982 Topps Donkey Kong Archive</title>
+    <meta name="description" content="An unofficial historical archive for the 1982 Topps Donkey Kong trading cards." />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Bungee&family=Press+Start+2P&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="./styles.css?v=22" />
+  </head>
+  <body>
+    <div class="scanlines"></div>
+    <div class="crt-glow"></div>
+    <div class="cursor-orb" id="cursorOrb" aria-hidden="true"></div>
+
+    <video class="background-video" autoplay muted loop playsinline preload="auto" aria-hidden="true">
+      <source src="./assets/jumpmanvideo.mp4" type="video/mp4" />
+      <source src="./assets/jumpmanvideo.mov" type="video/quicktime" />
+    </video>
+
+    <div class="intro" id="intro" role="button" tabindex="0" aria-label="Enter the arcade">
+      <div class="intro__veil" aria-hidden="true"></div>
+      <div class="intro__stack">
+        <div class="kicker">NINTENDO PRESENTS</div>
+        <h1><span>DONKEY KONG</span><span>TOPPS 1982</span></h1>
+        <div class="cta cta--flash" aria-hidden="true">PRESS START</div>
+      </div>
+    </div>
+
+    <main class="shell" id="shell">
+      <header class="hero">
+        <section class="hero__content">
+          <div class="hero__copy">
+            <h2>1982 TOPPS DONKEY KONG</h2>
+            <p>
+              Released in <strong>1982</strong>, Topps transformed Nintendo's arcade phenomenon into one of the
+              earliest video game trading-card releases. The set features <strong>32 full-color sticker cards</strong>,
+              <strong>4 scratch-off game pieces</strong>, and <strong>two large puzzle images</strong> hidden across the sticker
+              backs. Originally sold in wax packs containing <strong>three stickers, three scratch-off game pieces, and a stick of bubble gum</strong>,
+              the release blended collectible artwork with interactive gameplay, creating one of the most distinctive
+              video game collectibles of the early 1980s.
+            </p>
+          </div>
+
+          <div class="hero__feature panel">
+            <div class="hero__feature-slot" id="featuredPackSlot" aria-label="Featured pack card"></div>
+          </div>
+        </section>
+
+        <section class="facts">
+          <a class="fact panel fact--nav" href="#sticker-cards"><strong>32</strong><span>Sticker cards</span></a>
+          <a class="fact panel fact--nav" href="#scratchoffs"><strong>4</strong><span>Scratch-Off cards</span></a>
+          <a class="fact panel fact--nav" href="#about"><strong>1982</strong><span>Topps release</span></a>
+        </section>
+      </header>
+
+      <section class="section section--spotlight" id="cards">
+        <div class="section__heading">
+          <div>
+            <h3>Begin your tour with four featured pieces from the 1982 Topps Donkey Kong collection</h3>
+          </div>
+        </div>
+        <div class="rail" id="spotlightRail"></div>
+      </section>
+
+      <section class="section" id="puzzles">
+        <div class="section__heading">
+          <div>
+            <h3>THE PUZZLES</h3>
+          </div>
+        </div>
+        <div class="puzzle-grid">
+          <article class="puzzle-board panel">
+            <div class="puzzle-board__header">
+              <div class="puzzle-board__label">Blue Puzzle</div>
+            </div>
+            <div class="puzzle-board__tiles" id="bluePuzzleTiles" aria-label="Blue puzzle tiles"></div>
+          </article>
+          <article class="puzzle-board panel">
+            <div class="puzzle-board__header">
+              <div class="puzzle-board__label">Red Puzzle</div>
+            </div>
+            <div class="puzzle-board__tiles" id="redPuzzleTiles" aria-label="Red puzzle tiles"></div>
+          </article>
+        </div>
+      </section>
+
+      <section class="section" id="scratchoffs">
+        <div class="section__heading">
+          <div>
+            <h3>SCRATCH-OFFS</h3>
+          </div>
+
+        </div>
+        <div class="rail" id="scratchoffRail"></div>
+      </section>
+
+      <section class="section" id="sticker-cards">
+        <div class="section__heading">
+          <div>
+            <h3>The complete 32-card sticker collection</h3>
+          </div>
+
+        </div>
+        <div class="card-wall panel" id="stickerWall"></div>
+      </section>
+
+      <section class="section section--gap" aria-hidden="true"></section>
+
+      <section class="section" id="about">
+        <div class="section__heading">
+          <div>
+            <div class="section__eyebrow">ABOUT</div>
+            <h3>A look back at one of the earliest video game trading card sets ever produced</h3>
+          </div>
+        </div>
+        <div class="about panel">
+          <p>
+            Released by <strong>Topps in 1982</strong>, the <em>Donkey Kong</em> sticker set celebrated Nintendo's
+            arcade blockbuster just as the game was becoming a worldwide phenomenon. Long before dedicated video game
+            trading cards became common, Topps combined colorful character stickers, interactive scratch-off game cards,
+            and bubble gum into a collectible that perfectly captured the excitement of the arcade era.
+          </p>
+          <p>
+            The complete release consists of <strong>36 collectibles</strong>: <strong>32 sticker cards</strong> and
+            <strong>4 scratch-off game card varieties</strong>. The backs of the 32 stickers combine to form
+            <strong>two large puzzle images</strong>, encouraging collectors to assemble the complete set while enjoying
+            the artwork on both sides. Unlike many trading card releases of the era, the stickers are
+            <strong>unnumbered</strong>, making complete sets more challenging to assemble.
+          </p>
+          <p>
+            Each original <strong>wax pack</strong> contained <strong>3 sticker cards, 3 scratch-off game cards, and one
+            stick of bubble gum</strong>. The scratch-off cards featured simple games inspired by the four stages of the
+            original arcade game, while the stickers showcased colorful artwork and memorable Donkey Kong-themed captions.
+          </p>
+          <p>
+            Because Topps never released an official numbering system and relatively little production information has
+            survived, details such as total print quantities and case configurations remain largely undocumented today.
+            Original unopened display boxes and factory cases are considerably rarer than individual cards, making them
+            highly sought after by collectors. This archive is dedicated to preserving the history of the set through
+            high-resolution front and back scans, accurate checklist information, and historical research for collectors
+            and Nintendo enthusiasts alike.
+          </p>
+        </div>
+      </section>
+
+      <footer class="footer">
+        <strong>1982 Topps Donkey Kong</strong>
+        <a
+          class="footer__social"
+          href="https://x.com/TrustyPinocchio/"
+          target="_blank"
+          rel="noopener noreferrer"
+          aria-label="TrustyPinocchio on X"
+          title="TrustyPinocchio on X"
+        >
+          <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+            <path d="M18.9 3H21l-6.95 7.94L22.2 21h-6.3l-4.93-6.06L5.65 21H3.5l7.45-8.52L1.8 3h6.48l4.45 5.53L18.9 3Zm-1.1 16.2h1.68L6.32 4.77H4.52L17.8 19.2Z"/>
+          </svg>
+          <span class="footer__handle">TrustyPinocchio</span>
+        </a>
+      </footer>
+    </main>
+
+    <dialog class="viewer" id="viewer">
+      <button class="viewer__close" id="closeViewer" aria-label="Close viewer">×</button>
+      <div class="viewer__layout">
+        <div class="viewer__imageWrap">
+          <img id="viewerImage" alt="Card scan" />
+        </div>
+        <div class="viewer__meta">
+          <div class="viewer__eyebrow">CARD VIEWER</div>
+          <h4 id="viewerTitle"></h4>
+          <p id="viewerSubtitle"></p>
+          <dl class="viewer__stats">
+            <div><dt>Set</dt><dd>1982 Topps Donkey Kong</dd></div>
+            <div><dt>Type</dt><dd id="viewerType"></dd></div>
+            <div><dt>Source</dt><dd id="viewerSource"></dd></div>
+          </dl>
+          <p class="viewer__note">
+            A full-size scan with room to add puzzle position, card backs, and collector notes later.
+          </p>
+        </div>
+      </div>
+    </dialog>
+
+    <script src="./app.js?v=20"></script>
+  </body>
+</html>
