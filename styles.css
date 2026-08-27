@@ -21,6 +21,13 @@
 
 * { box-sizing: border-box; }
 html { scroll-behavior: smooth; }
+
+@media (hover: hover) and (pointer: fine) and (min-width: 981px) {
+  html {
+    zoom: 0.9;
+  }
+}
+
 body {
   margin: 0;
   min-height: 100vh;
@@ -81,6 +88,9 @@ body.ready .shell { filter: none; opacity: 1; }
   transform: scale(1.02);
   z-index: 0;
 }
+body.is-low-motion .background-video {
+  display: none;
+}
 .scanlines {
   position: fixed;
   inset: 0;
@@ -105,15 +115,15 @@ body.ready .shell { filter: none; opacity: 1; }
   background: url('./assets/images/mario-cursor-icon.png') center/contain no-repeat;
   image-rendering: pixelated;
   filter: drop-shadow(0 2px 8px rgba(0, 0, 0, 0.5));
-  transform: translate(-50%, -50%);
+  transform: translate3d(-50%, -50%, 0);
+  will-change: transform;
   z-index: 30;
-  transition: width 0.18s ease, height 0.18s ease, filter 0.18s ease, transform 0.18s ease;
+  transition: width 0.18s ease, height 0.18s ease, filter 0.18s ease;
 }
 body[data-hover-card="true"] .cursor-orb {
   width: 42px;
   height: 42px;
   filter: drop-shadow(0 3px 12px rgba(247, 200, 75, 0.36));
-  transform: translate(-50%, -50%) scale(1.08);
 }
 
 .intro {
@@ -371,7 +381,7 @@ body[data-hover-card="true"] .cursor-orb {
   border-color: rgba(255, 217, 95, 0.28);
   background: linear-gradient(180deg, rgba(255, 217, 95, 0.06), rgba(0,0,0,0.18));
 }
-.section { margin-top: 3rem; }
+.section { margin-top: 3rem; content-visibility: auto; contain-intrinsic-size: 1px 900px; }
 .section--gap {
   min-height: 72vh;
   margin-top: 1.5rem;
@@ -403,6 +413,18 @@ body[data-hover-card="true"] .cursor-orb {
   display: grid;
   grid-template-columns: repeat(4, minmax(0, 1fr));
   gap: 1rem;
+}
+.section--spotlight .rail {
+  padding: 1rem;
+}
+.section--spotlight .card__face {
+  padding: 0.6rem;
+}
+.section--spotlight .card img {
+  aspect-ratio: 5 / 7;
+}
+.section--spotlight .card__meta {
+  padding: 0.65rem 0.1rem 0.2rem;
 }
 .card-wall {
   padding: 1rem;
@@ -661,17 +683,36 @@ body[data-hover-card="true"] .cursor-orb {
     max-width: min(560px, calc(100vw - 1rem));
   }
 }
-
-.about { padding: 1.3rem 1.4rem; }
-.about p { margin: 0 0 0.9rem; color: var(--muted); line-height: 1.7; }
-.about p:last-child { margin-bottom: 0; }
 .footer {
   display: flex;
-  flex-direction: column;
-  align-items: flex-end;
-  gap: 0.55rem;
-  color: var(--muted);
-  padding: 1.5rem 0 0;
+  justify-content: space-between;
+  align-items: center;
+  gap: 1rem;
+  padding: 0.8rem 0 0;
+  color: var(--cream);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  font-family: var(--arcade-font);
+  font-size: 0.72rem;
+}
+.footer__brand {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.65rem;
+  flex-wrap: wrap;
+}
+.footer__version {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.24rem 0.55rem;
+  border-radius: 999px;
+  border: 1px solid rgba(255, 217, 90, 0.28);
+  background: rgba(255, 217, 90, 0.08);
+  color: #ffd95a;
+  font-size: 0.64rem;
+  letter-spacing: 0.16em;
+  line-height: 1;
 }
 .footer__social {
   display: inline-flex;
@@ -762,6 +803,36 @@ body[data-hover-card="true"] .cursor-orb {
 .viewer__stats dd { margin: 0.3rem 0 0; }
 .viewer__note { padding-top: 0.7rem; border-top: 1px solid rgba(255,255,255,0.08); }
 
+@media (hover: none), (pointer: coarse) {
+  body {
+    cursor: auto;
+  }
+
+  .cursor-orb {
+    display: none;
+  }
+
+  .intro,
+  .intro__stack,
+  .intro__stack * {
+    cursor: auto;
+  }
+
+  .card,
+  .fact--nav,
+  .footer__social,
+  .cta {
+    touch-action: manipulation;
+  }
+
+  .card:hover,
+  .card.is-flipped:hover,
+  .footer__social:hover,
+  .fact--nav:hover {
+    transform: none;
+  }
+}
+
 @media (max-width: 960px) {
   .hero__content, .viewer__layout, .facts, .rail, .puzzle-grid { grid-template-columns: 1fr 1fr; }
   .rail, .card-wall { grid-template-columns: 1fr 1fr; }
@@ -769,8 +840,239 @@ body[data-hover-card="true"] .cursor-orb {
   .viewer__imageWrap { min-height: 44vh; }
 }
 @media (max-width: 680px) {
-  .shell { width: min(100vw - 1rem, 1200px); }
-  .section__heading, .footer, .hero__feature-top, .hero__feature-bottom { flex-direction: column; align-items: start; }
-  .hero__content, .viewer__layout, .facts, .rail, .puzzle-grid, .card-wall { grid-template-columns: 1fr; }
-  #stickerWall { grid-template-columns: 1fr; }
+  .shell {
+    width: min(100vw - 0.75rem, 1200px);
+    padding-bottom: 1.5rem;
+  }
+
+  .cursor-orb {
+    display: none;
+  }
+
+  .background-video {
+    opacity: 0.72;
+    filter: saturate(0.92) contrast(1.03) brightness(0.28);
+  }
+
+  .intro__stack {
+    padding: 0.9rem 0.5rem 1.3rem;
+  }
+
+  .intro .kicker {
+    font-size: 0.62rem;
+    letter-spacing: 0.28em;
+  }
+
+  .intro h1 {
+    font-size: clamp(3.2rem, 15vw, 5.1rem);
+    -webkit-text-stroke: 4px #a63b23;
+    line-height: 0.84;
+    text-shadow:
+      0 1px 0 #7f2a1a,
+      0 4px 10px rgba(0, 0, 0, 0.42);
+  }
+
+  .intro p {
+    font-size: 0.92rem;
+    max-width: 24ch;
+  }
+
+  .cta {
+    min-width: 200px;
+    padding: 0.9rem 1.2rem;
+  }
+
+  .hero {
+    padding-top: 0.4rem;
+  }
+
+  .hero__content {
+    grid-template-columns: 1fr;
+    gap: 0.7rem;
+  }
+
+  .hero__copy {
+    padding: 1rem;
+  }
+
+  .hero__copy h2 {
+    font-size: clamp(1.45rem, 7.4vw, 2.15rem);
+    line-height: 0.96;
+    letter-spacing: 0.01em;
+  }
+
+  .hero__copy p {
+    font-size: 1.05rem;
+    line-height: 1.72;
+    max-width: none;
+  }
+
+  .hero__feature {
+    padding: 0.55rem;
+  }
+
+  .hero__feature-slot .card {
+    width: min(100%, 290px);
+  }
+
+  .facts {
+    grid-template-columns: 1fr;
+    gap: 0.6rem;
+  }
+
+  .fact {
+    padding: 0.82rem 0.9rem;
+  }
+
+  .section {
+    margin-top: 2rem;
+  }
+
+  .section__heading {
+    margin-bottom: 0.75rem;
+  }
+
+  .section__heading h3 {
+    font-size: clamp(1.15rem, 5.4vw, 1.62rem);
+    line-height: 1.12;
+    letter-spacing: 0.01em;
+    max-width: 22ch;
+  }
+
+  .hero__copy h2,
+  .section__heading h3,
+  .viewer__meta h4,
+  .back__title,
+  .footer strong,
+  .scratchoff-copy,
+  .puzzle-board__label,
+  .puzzle-board__count {
+    -webkit-text-stroke: 4px #5a1f13;
+    text-shadow:
+      0 1px 0 rgba(255, 248, 214, 0.9),
+      0 2px 0 #8a3520,
+      0 4px 8px rgba(0, 0, 0, 0.42);
+  }
+
+  .rail {
+    grid-template-columns: 1fr 1fr;
+    gap: 0.65rem;
+  }
+
+  .card {
+    min-height: auto;
+  }
+
+  .card img {
+    aspect-ratio: 1 / 1.18;
+  }
+
+  .card__meta {
+    padding: 0.62rem 0.18rem 0.22rem;
+    font-size: 0.9rem;
+  }
+
+  .puzzle-grid {
+    grid-template-columns: 1fr;
+    gap: 0.75rem;
+  }
+
+  .puzzle-board {
+    max-width: min(500px, calc(100vw - 1rem));
+    padding: 0.7rem;
+  }
+
+  .puzzle-board__tiles {
+    gap: 0.24rem;
+  }
+
+  .puzzle-board__label {
+    font-size: clamp(1.15rem, 6vw, 1.55rem);
+  }
+
+  .card-wall {
+    grid-template-columns: 1fr 1fr;
+    padding: 0.75rem;
+    gap: 0.55rem;
+  }
+
+  #stickerWall {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .viewer {
+    width: calc(100vw - 0.6rem);
+    border-radius: 22px;
+  }
+
+  .viewer__layout {
+    grid-template-columns: 1fr;
+    padding: 0.75rem;
+    gap: 0.75rem;
+  }
+
+  .viewer__imageWrap {
+    min-height: 36vh;
+  }
+
+  .viewer__meta {
+    padding: 0.5rem 0.15rem 0.25rem;
+  }
+
+  .viewer__meta h4 {
+    font-size: 1.5rem;
+  }
+
+  .viewer__stats {
+    margin: 1rem 0;
+  }
+
+  .about {
+    padding: 1rem 1rem;
+  }
+
+  .about p {
+    font-size: 0.98rem;
+    line-height: 1.75;
+  }
+
+  .footer {
+    align-items: flex-start;
+    padding-top: 1rem;
+  }
 }
+
+@media (max-width: 360px) {
+  .rail,
+  .card-wall,
+  #stickerWall {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 480px) {
+  .shell {
+    width: min(100vw - 0.5rem, 1200px);
+  }
+
+  .rail,
+  .card-wall,
+  #stickerWall {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .hero__copy,
+  .panel,
+  .about {
+    border-radius: 20px;
+  }
+
+  .puzzle-board__tiles {
+    gap: 0.18rem;
+  }
+
+  .viewer__imageWrap {
+    min-height: 30vh;
+  }
+}
+

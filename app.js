@@ -19,6 +19,10 @@ const viewerSubtitle = document.getElementById('viewerSubtitle');
 const viewerType = document.getElementById('viewerType');
 const viewerSource = document.getElementById('viewerSource');
 const closeViewer = document.getElementById('closeViewer');
+const isTouchLike = window.matchMedia('(hover: none), (pointer: coarse)').matches;
+const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+const saveData = Boolean(navigator.connection && navigator.connection.saveData);
+const shouldReduceMedia = prefersReducedMotion || saveData;
 
 const imageUrl = (item) => `./${item.local}`;
 
@@ -70,11 +74,12 @@ function scratchItem(fileName, label) {
 }
 
 function frontMarkup(item, index, options = {}) {
-  const { showMeta = true } = options;
+  const { showMeta = true, loading = 'lazy', fetchpriority } = options;
   const metaLabel = item.metaLabel || 'Click to flip';
+  const priorityAttr = fetchpriority ? ` fetchpriority="${fetchpriority}"` : '';
   return `
     <div class="card__face card__face--front">
-      <img src="${imageUrl(item)}" alt="${item.title}" loading="lazy" />
+      <img src="${imageUrl(item)}" alt="${item.title}" loading="${loading}"${priorityAttr} />
       ${showMeta ? `<div class="card__meta"><span>${metaLabel}</span></div>` : ''}
     </div>
   `;
@@ -122,7 +127,8 @@ function makePuzzleTile(src, alt) {
     <img
       src="./${src}"
       alt="${alt}"
-      loading="eager"
+      loading="lazy"
+      decoding="async"
     />
   `;
   return el;
@@ -195,15 +201,39 @@ function buildScratchItems() {
 }
 
 function start() {
+  const backgroundVideo = document.querySelector('.background-video');
+
+  if (isTouchLike) {
+    document.body.classList.add('is-touch');
+  }
+
+  if (shouldReduceMedia) {
+    document.body.classList.add('is-low-motion');
+    if (backgroundVideo) {
+      backgroundVideo.pause();
+      backgroundVideo.removeAttribute('autoplay');
+      backgroundVideo.removeAttribute('loop');
+      backgroundVideo.preload = 'none';
+      backgroundVideo.controls = false;
+      backgroundVideo.querySelectorAll('source').forEach((source) => {
+        source.removeAttribute('src');
+      });
+      backgroundVideo.load();
+    }
+  } else if (backgroundVideo) {
+    backgroundVideo.play().catch(() => {});
+  }
+
   const featuredPack = {
-    title: 'DK cards packaging front.png',
-    local: 'assets/images/DK cards packagingfront.png',
-    backLocal: 'assets/images/DK cards packaging back.png',
+    title: '1982 box',
+    local: 'assets/images/1982box.png',
+    backLocal: 'assets/images/DK cards packagingfrontsmall.png',
     source: 'Local archive scan',
   };
 
+
   if (featuredPackSlot) {
-    featuredPackSlot.replaceChildren(makeCard(featuredPack, 0, { showMeta: false }));
+    featuredPackSlot.replaceChildren(makeCard(featuredPack, 0, { showMeta: false, loading: 'eager', fetchpriority: 'high' }));
   }
 
   const spotlightItems = [
@@ -274,14 +304,34 @@ viewer.addEventListener('click', (e) => {
   if (!inside) viewer.close();
 });
 
-document.addEventListener('mousemove', (e) => {
-  orb.style.left = `${e.clientX}px`;
-  orb.style.top = `${e.clientY}px`;
-});
+if (!isTouchLike) {
+  let cursorX = 0;
+  let cursorY = 0;
+  let cursorFrame = 0;
+  let cursorHoveringCard = false;
 
-document.addEventListener('mouseover', (e) => {
-  document.body.dataset.hoverCard = e.target.closest('.card') ? 'true' : 'false';
-});
+  const renderCursor = () => {
+    cursorFrame = 0;
+    orb.style.transform = `translate3d(${cursorX}px, ${cursorY}px, 0) translate(-50%, -50%)${cursorHoveringCard ? ' scale(1.08)' : ''}`;
+  };
+
+  const requestCursorRender = () => {
+    if (cursorFrame) return;
+    cursorFrame = window.requestAnimationFrame(renderCursor);
+  };
+
+  document.addEventListener('pointermove', (e) => {
+    cursorX = e.clientX;
+    cursorY = e.clientY;
+    requestCursorRender();
+  }, { passive: true });
+
+  document.addEventListener('mouseover', (e) => {
+    cursorHoveringCard = Boolean(e.target.closest('.card'));
+    document.body.dataset.hoverCard = cursorHoveringCard ? 'true' : 'false';
+    requestCursorRender();
+  });
+}
 
 start().catch((err) => {
   console.error(err);

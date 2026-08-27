@@ -8,16 +8,15 @@
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link href="https://fonts.googleapis.com/css2?family=Bungee&family=Press+Start+2P&display=swap" rel="stylesheet" />
-    <link rel="stylesheet" href="./styles.css?v=22" />
+    <link rel="stylesheet" href="./styles.css?v=38" />
   </head>
   <body>
     <div class="scanlines"></div>
     <div class="crt-glow"></div>
     <div class="cursor-orb" id="cursorOrb" aria-hidden="true"></div>
 
-    <video class="background-video" autoplay muted loop playsinline preload="auto" aria-hidden="true">
+    <video class="background-video" autoplay muted loop playsinline preload="metadata" poster="./assets/imagebackgroundfallback.webp" aria-hidden="true">
       <source src="./assets/jumpmanvideo.mp4" type="video/mp4" />
-      <source src="./assets/jumpmanvideo.mov" type="video/quicktime" />
     </video>
 
     <div class="intro" id="intro" role="button" tabindex="0" aria-label="Enter the arcade">
@@ -147,7 +146,10 @@
       </section>
 
       <footer class="footer">
-        <strong>1982 Topps Donkey Kong</strong>
+        <div class="footer__brand">
+          <strong>1982 Topps Donkey Kong</strong>
+          <span class="footer__version">v1.1</span>
+        </div>
         <a
           class="footer__social"
           href="https://x.com/TrustyPinocchio/"
@@ -186,6 +188,6 @@
       </div>
     </dialog>
 
-    <script src="./app.js?v=20"></script>
+    <script src="./app.js?v=25"></script>
   </body>
 </html>
